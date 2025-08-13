@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FPSGun : MonoBehaviour
@@ -33,22 +34,29 @@ public class FPSGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleAiming(vector3);
+        object vector31 = null;
+        HandleAiming(vector3, vector31);
         HandleShooting();
     }
-    void HandleAiming(Vector3 vector3)
+
+    private void HandleAiming(Vector3 vector3, object vector31)
+    {
+        throw new NotImplementedException();
+    }
+
+    void HandleAiming(Vector3 vector3, Vector3 v3)
     {
         if (Input.GetMouseButton(1))//Right mouse button/ OR L2 on Controller.
             isAiming = true;
         else
             isAiming = false;
         Transform targetPos = isAiming ? adPosition : hiPosition;
-        Vector3 vector3 = Vector3.Lerp(gunModel.position, targetPos.position, Time.deltaTime * adsSpeed);
-        {
-            
-        }
-      
-       
+        Vector3 vector31 = Vector3.Lerp(gunModel.position, targetPos.position, Time.deltaTime * adsSpeed); 
+    }
+
+
+
+
 
      private void HandleShooting()
         {
@@ -80,5 +88,5 @@ public class FPSGun : MonoBehaviour
 
             }
         }
-    }
 }
+

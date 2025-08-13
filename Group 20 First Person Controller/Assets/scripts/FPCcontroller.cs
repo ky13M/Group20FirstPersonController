@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 
     public class FPController : MonoBehaviour
     {
+    public Camera playerCamera;
+    public float normalFOV =60f;
+    public float aimFOV = 40f;
+    public float aimSpeed = 10f;
+
+    private bool isAiming = false;
+
         [Header("Movement Settings")]
         public float moveSpeed = 5f;
         public float gravity = -9.81f;
@@ -19,15 +26,18 @@ using UnityEngine.InputSystem;
         private Vector2 lookInput;
         private Vector3 velocity;
         private float verticalRotation = 0f;
+        
 
         [Header("Shooting")]
         public GameObject bulletPrefab;
         public Transform gunPoint;
+
     [Header("Crouch Settings")]
     public float crouchHeight = 1f;
     public float standHeight = 2f;
     public float crouchSpeed = 2.5f;
     private float originalMoveSpeed;
+    
     
 
         private void Awake()
@@ -37,21 +47,36 @@ using UnityEngine.InputSystem;
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            
         }
         private void Update()
         {
             HandleMovement();
             HandleLook();
+
+        if ((Input.GetMouseButtonDown(1)))
+        {
+            OnAim(true);
         }
-        public void OnMove(InputAction.CallbackContext context)
+        else if (Input.GetMouseButtonDown(1))
+        {
+            OnAim(false);
+        }
+        float targetFOV = isAiming ? aimFOV : normalFOV;
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * aimSpeed);
+        }
+
+    
+    
+    
+     
+    
+    public void OnMove(InputAction.CallbackContext context)
         {
             moveInput = context.ReadValue<Vector2>();
         }
-        public void OnLook(InputAction.CallbackContext context)
-        {
-            lookInput = context.ReadValue<Vector2>();
-        }
-        public void OnJump(InputAction.CallbackContext context)
+
+    public void OnJump(InputAction.CallbackContext context)
         {
             if(context.performed && controller.isGrounded)
             {
@@ -59,6 +84,10 @@ using UnityEngine.InputSystem;
             }
 
         }
+    void OnAim(bool aiming)
+    {
+        isAiming = aiming;
+    }
         public void OnShoot(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -84,15 +113,15 @@ using UnityEngine.InputSystem;
     {
         if (context.performed)
         {
-            controller.height = crouchHeight;
-            moveSpeed = originalMoveSpeed;
+         controller.height = crouchHeight;
+          moveSpeed = originalMoveSpeed;
         }
     }
         public void HandleMovement()
         {
             Vector3 move = transform.right * moveInput.x + transform.forward *
             moveInput.y;
-            controller.Move(move * moveSpeed * Time.deltaTime);
+            controller.Move(moveSpeed * Time.deltaTime * move);
             if (controller.isGrounded && velocity.y < 0)
                 velocity.y = -2f;
             velocity.y += gravity * Time.deltaTime;
@@ -108,5 +137,9 @@ using UnityEngine.InputSystem;
             cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         }
+    public void Onshoot()
+    {
+
+    }
     }
 
