@@ -47,6 +47,10 @@ using UnityEngine.InputSystem;
     public float pickupRange = 3f;
     public Transform holdPoint;
     private PickupObject heldObject;
+
+    [Header("Throwing settings")]
+    public float throwForce = 10f;
+    public float throwUpwardBoost = 1f;
     
     
 
@@ -115,6 +119,18 @@ using UnityEngine.InputSystem;
             }
 
         }
+    public void OnThrow(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        if (heldObject == null) return;
+
+        Vector3 dir = cameraTransform.forward;
+        Vector3 implulse = dir * throwForce + Vector3.up * throwUpwardBoost;
+
+        heldObject.Throw(implulse);
+        heldObject = null;
+
+    }
     public void OnAim(InputAction.CallbackContext context)
     {
         if (context.performed)
