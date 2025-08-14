@@ -153,6 +153,15 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Throwing"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e335768-863f-43ee-b579-55ff8d7c7972"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -452,6 +461,28 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
                     ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b92a80a-acb2-4420-89f0-f56fbb7049e2"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Throwing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10a88d07-a88f-4bbb-8a82-f873b3808d7e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Throwing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -495,6 +526,7 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
         m_Player_Pickup = m_Player.FindAction("Pickup", throwIfNotFound: true);
+        m_Player_Throwing = m_Player.FindAction("Throwing", throwIfNotFound: true);
     }
 
     ~@Controls1()
@@ -582,6 +614,7 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Aiming;
     private readonly InputAction m_Player_Pickup;
+    private readonly InputAction m_Player_Throwing;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -621,6 +654,10 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Pickup".
         /// </summary>
         public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Throwing".
+        /// </summary>
+        public InputAction @Throwing => m_Wrapper.m_Player_Throwing;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -668,6 +705,9 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
             @Pickup.started += instance.OnPickup;
             @Pickup.performed += instance.OnPickup;
             @Pickup.canceled += instance.OnPickup;
+            @Throwing.started += instance.OnThrowing;
+            @Throwing.performed += instance.OnThrowing;
+            @Throwing.canceled += instance.OnThrowing;
         }
 
         /// <summary>
@@ -700,6 +740,9 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
             @Pickup.started -= instance.OnPickup;
             @Pickup.performed -= instance.OnPickup;
             @Pickup.canceled -= instance.OnPickup;
+            @Throwing.started -= instance.OnThrowing;
+            @Throwing.performed -= instance.OnThrowing;
+            @Throwing.canceled -= instance.OnThrowing;
         }
 
         /// <summary>
@@ -815,5 +858,12 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPickup(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Throwing" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThrowing(InputAction.CallbackContext context);
     }
 }
