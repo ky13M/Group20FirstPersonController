@@ -537,10 +537,7 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
     /// <summary>
     /// Destroys this asset and all associated <see cref="InputAction"/> instances.
     /// </summary>
-    public void Dispose()
-    {
-        UnityEngine.Object.Destroy(asset);
-    }
+    public void Dispose() => UnityEngine.Object.Destroy(asset);
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.bindingMask" />
     public InputBinding? bindingMask
@@ -560,49 +557,28 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
     public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.Contains(InputAction)" />
-    public bool Contains(InputAction action)
-    {
-        return asset.Contains(action);
-    }
+    public bool Contains(InputAction action) => asset.Contains(action);
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.GetEnumerator()" />
-    public IEnumerator<InputAction> GetEnumerator()
-    {
-        return asset.GetEnumerator();
-    }
+    public IEnumerator<InputAction> GetEnumerator() => asset.GetEnumerator();
 
     /// <inheritdoc cref="IEnumerable.GetEnumerator()" />
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.Enable()" />
-    public void Enable()
-    {
-        asset.Enable();
-    }
+    public void Enable() => asset.Enable();
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.Disable()" />
-    public void Disable()
-    {
-        asset.Disable();
-    }
+    public void Disable() => asset.Disable();
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.bindings" />
     public IEnumerable<InputBinding> bindings => asset.bindings;
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.FindAction(string, bool)" />
-    public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
-    {
-        return asset.FindAction(actionNameOrId, throwIfNotFound);
-    }
+    public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false) => asset.FindAction(actionNameOrId, throwIfNotFound);
 
     /// <inheritdoc cref="UnityEngine.InputSystem.InputActionAsset.FindBinding(InputBinding, out InputAction)" />
-    public int FindBinding(InputBinding bindingMask, out InputAction action)
-    {
-        return asset.FindBinding(bindingMask, out action);
-    }
+    public int FindBinding(InputBinding bindingMask, out InputAction action) => asset.FindBinding(bindingMask, out action);
 
     // Player
     private readonly InputActionMap m_Player;
@@ -661,11 +637,11 @@ public partial class @Controls1: IInputActionCollection2, IDisposable
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public InputActionMap Get() => m_Wrapper.m_Player;
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
+        public void Enable() => Get().Enable();
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
+        public void Disable() => Get().Disable();
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>

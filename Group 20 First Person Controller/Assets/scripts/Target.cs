@@ -2,8 +2,5 @@
 
 internal class Target
 {
-    internal void TakeDamage(float damage)
-    {
-        throw new NotImplementedException();
-    }
+    internal void TakeDamage(float damage) => throw new NotImplementedException();
 }

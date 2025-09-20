@@ -4,10 +4,7 @@ public class PickupObject : MonoBehaviour
 {
     private Rigidbody rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();  
-    }
+    void Awake() => rb = GetComponent<Rigidbody>();
     public void Pickup(Transform holdpoint)
     {
         rb.useGravity = false;
@@ -33,10 +30,7 @@ public class PickupObject : MonoBehaviour
 
     }
 
-    public void MoveToHoldPoint(Vector3 targetPostion)
-    {
-        rb.MovePosition(targetPostion);
-    }
+    public void MoveToHoldPoint(Vector3 targetPostion) => rb.MovePosition(targetPostion);
 
     // Update is called once per frame
     void Update()
