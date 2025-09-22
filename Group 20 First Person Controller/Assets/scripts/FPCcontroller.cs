@@ -4,21 +4,17 @@ using UnityEngine.InputSystem;
 
 
 
+
 public class FPController : MonoBehaviour
 {
+    private InputActionAsset interactAction;
     public Camera playerCamera;
     public float normalFOV = 60f;
     public float aimFOV = 40f;
     public float aimSpeed = 10f;
-    public float mouseSensitivity = 2f;
-    public float recoilX = 2f; //vertical kick
-    public float recoilY = 1f; //horizontal movement
-    public float recoilReturnSpeed = 6f;
-    public float recoilSnappiness = 10f;
-
-    private Vector2 currentRotation;
-    private Vector2 targetRecoil;
-    private Vector2 currentRecoil;
+    [SerializeField]private float interactRange = 3f;
+    [SerializeField] LayerMask interactLayer;
+   
 
     private bool isAiming = false;
 
@@ -71,6 +67,17 @@ public class FPController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        interactAction = playerInput.actions;
+        playerCamera = Camera.main;
+
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main;
+        }
+       
+       
+
     }
     private void Update()
     {
@@ -84,15 +91,9 @@ public class FPController : MonoBehaviour
 
 
         float targetFOV = isAiming ? aimFOV : normalFOV;
-        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * aimSpeed);
-        {
-            currentRotation.x += lookInput.x * mouseSensitivity * Time.deltaTime;
-            currentRotation.y -= lookInput.y * mouseSensitivity * Time.deltaTime;
-            currentRotation.y = Mathf.Clamp(currentRotation.y, -80f, 80f);
-
-            targetRecoil = Vector2.Lerp(targetRecoil, Vector2.zero, recoilReturnSpeed * Time.deltaTime);
-            currentRecoil = Vector2.Lerp(currentRecoil, targetRecoil, recoilSnappiness * Time.deltaTime);
-        }
+        float newFOV = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * aimSpeed);
+        
+       
     }
 
 
@@ -162,6 +163,20 @@ public class FPController : MonoBehaviour
 
 
     }
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        Ray ray =new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        
+        if (Physics.Raycast(ray,out RaycastHit hit, interactRange, interactLayer))
+        {
+            Debug.Log("interacted with:" + hit.collider.name);
+        }
+        else
+        {
+            Debug.Log("Nothing to inyteract with");
+        }
+    }
+
 
     public void OnShoot(InputAction.CallbackContext context)
     {
@@ -170,13 +185,7 @@ public class FPController : MonoBehaviour
             Shoot();
         }
     }
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            AddRecoil();
-        }
-    }
+   
     public void OnLook(InputAction.CallbackContext context) => lookInput = context.ReadValue<Vector2>();
     private void Shoot()
     {
@@ -227,8 +236,11 @@ public class FPController : MonoBehaviour
         cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
+  
 
-    void AddRecoil() => targetRecoil += new Vector2(recoilX,.Range(-recoilY, recoilY));
+   
+
+
 }
 
 
